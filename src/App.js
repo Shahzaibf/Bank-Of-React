@@ -13,6 +13,7 @@ import UserProfile from './components/UserProfile';
 import LogIn from './components/Login';
 import Credits from './components/Credits';
 import Debits from './components/Debits';
+import axios from 'axios';
 
 class App extends Component {
   constructor() {  // Create and initialize state
@@ -33,6 +34,42 @@ class App extends Component {
     const newUser = {...this.state.currentUser};
     newUser.userName = logInInfo.userName;
     this.setState({currentUser: newUser})
+    this.componentDidMount();
+  }
+
+  balcalc = () => {
+    const {creditList, debitList} = this.state;
+    const totalCreds = creditList.reduce(
+      (total, credit) => total + credit.amount,
+      0
+    );
+    const totalDebits = debitList.reduce(
+      (total, debit) => total + debit.amount,
+      0
+    );
+    const accountBalance = (totalCreds - totalDebits).toFixed(2);
+  
+    this.setState({ accountBalance });
+  }
+
+  async componentDidMount() {
+    try {
+      let response = await axios.get('https://johnnylaicode.github.io/api/credits.json');
+      let response2 = await axios.get('https://johnnylaicode.github.io/api/debits.json');
+      this.setState({debitList: response.data});
+      this.setState({creditList: response2.data});
+    }
+    catch(error) {
+      if(error.response) {
+        console.log(error.response.data);
+        console.log(error.response.status);
+      }
+      if(error.response2) {
+        console.log(error.response.data);
+        console.log(error.response.status);
+      }
+    }
+    this.balcalc();
   }
 
   // Create Routes and React elements to be rendered using React components
