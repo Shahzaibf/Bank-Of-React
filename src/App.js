@@ -56,8 +56,8 @@ class App extends Component {
     try {
       let response = await axios.get('https://johnnylaicode.github.io/api/credits.json');
       let response2 = await axios.get('https://johnnylaicode.github.io/api/debits.json');
-      this.setState({debitList: response.data});
-      this.setState({creditList: response2.data});
+      this.setState({creditList: response.data});
+      this.setState({debitList: response2.data});
     }
     catch(error) {
       if(error.response) {
@@ -78,11 +78,26 @@ class App extends Component {
       amount,
       date: new Date().toISOString()
     };
+    //spread operator old list + new list
     const changeddebits = [...this.state.debitList, Debitn];
     this.setState({ debitList: changeddebits}, () => {
       this.balcalc();
     });
-  } 
+  }
+  
+  addCredit = (description, amount) => {
+    const Creditn = {
+      id: this.state.creditList.length + 1,
+      description,
+      amount,
+      date: new Date().toISOString()
+    };
+    //spread operator old list + new list
+    const changedcredits = [...this.state.creditList, Creditn];
+    this.setState({creditList: changedcredits}, () => {
+      this.balcalc();
+    })
+  }
 
   // Create Routes and React elements to be rendered using React components
   render() {  
@@ -92,7 +107,7 @@ class App extends Component {
       <UserProfile userName={this.state.currentUser.userName} memberSince={this.state.currentUser.memberSince} />
     )
     const LogInComponent = () => (<LogIn user={this.state.currentUser} mockLogIn={this.mockLogIn} />)
-    const CreditsComponent = () => (<Credits credits={this.state.creditList} addCredit={this.addCredit} accountBalance={this.state.accountBalance}/>) 
+    const CreditsComponent = () => (<Credits creditlist={this.state.creditList} addCredit={this.addCredit} accountBalance={this.state.accountBalance}/>) 
     const DebitsComponent = () => (<Debits debitlist={this.state.debitList} addDebit={this.addDebit} accountBalance={this.state.accountBalance} />) 
 
     // Important: Include the "basename" in Router, which is needed for deploying the React app to GitHub Pages
