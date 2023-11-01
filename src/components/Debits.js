@@ -32,8 +32,7 @@ function Debits({ debitlist, addDebit, accountBalance}) {
   return (
     <div>
       <h1>Debits</h1>
-
-      <ul>{debitsView()}</ul>
+      {debitsView()}
       <form onSubmit={handleSubmit}>
 
         <input type="text" name="description" />
