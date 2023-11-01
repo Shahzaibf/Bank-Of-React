@@ -71,6 +71,18 @@ class App extends Component {
     }
     this.balcalc();
   }
+  addDebit = (description, amount) => {
+    const Debitn = {
+      id: this.state.debitList.length + 1,
+      description,
+      amount,
+      date: new Date().toISOString()
+    };
+    const changeddebits = [...this.state.debitList, Debitn];
+    this.setState({ debitList: changeddebits}, () => {
+      this.balcalc();
+    });
+  } 
 
   // Create Routes and React elements to be rendered using React components
   render() {  
@@ -81,7 +93,7 @@ class App extends Component {
     )
     const LogInComponent = () => (<LogIn user={this.state.currentUser} mockLogIn={this.mockLogIn} />)
     const CreditsComponent = () => (<Credits credits={this.state.creditList} />) 
-    const DebitsComponent = () => (<Debits debits={this.state.debitList} />) 
+    const DebitsComponent = () => (<Debits debitlist={this.state.debitList} addDebit={this.addDebit} accountBalance={this.state.accountBalance} />) 
 
     // Important: Include the "basename" in Router, which is needed for deploying the React app to GitHub Pages
     return (
