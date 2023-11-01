@@ -27,14 +27,7 @@ function Debits({ debitlist, addDebit, accountBalance}) {
       let date = debit.date.slice(0,10);
       return <li key={debit.id}>{debit.amount} {debit.description} {date}</li>;
     });
-    
   }
-
-const handleSubmit = (e) => {
-  e.preventDefault();
-  const updateddebit = debit.amount;
-
-}
   // Render the list of Debit items and a form to input new Debit item
   return (
     <div>
