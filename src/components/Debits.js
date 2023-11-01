@@ -28,11 +28,6 @@ function Debits({ debitlist, addDebit, accountBalance}) {
       return <li key={debit.id}>{debit.amount} {debit.description} {date}</li>;
     });
   }
-  /*
-  const debitsView = debitlist.map(({ id, amount, description, date }) => (
-     <li key={id}> {amount} {description} {date.slice(0,10)}</li>
-  ));
-  */
   // Render the list of Debit items and a form to input new Debit item
   return (
     <div>
